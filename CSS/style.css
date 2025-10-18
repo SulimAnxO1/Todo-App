@@ -255,3 +255,8 @@ footer {
 #clear-completed:hover {
   color: var(--danger);
 }
+
+#clear-completed:active {
+  color: rgba(116, 9, 9, 0.81);
+  transform: scale(0.9);
+}
