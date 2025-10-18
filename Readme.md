@@ -7,7 +7,7 @@ It helps users organize daily tasks efficiently with an intuitive interface and 
 
 ## 🌐 Live Demo
 
-### 👉 [Live Demo](https://to-do-app-xo1.netlify.app/)
+### 👉 [Live Demo]()
 
 ---
 
@@ -35,3 +35,4 @@ It helps users organize daily tasks efficiently with an intuitive interface and 
 - 🧱 **HTML**
 - 🎨 **CSS**
 - ⚡ **JavaScript**
+- 🧩 **Font Awesome** (for icons)
