@@ -1,5 +1,4 @@
 // DOM ELEMENTS
-
 const taskInput = document.getElementById("task-input");
 const addTaskBtn = document.getElementById("add-task");
 const todosList = document.getElementById("todos-list");
@@ -10,28 +9,24 @@ const dateElement = document.getElementById("date");
 const filters = document.querySelectorAll(".filter");
 
 // VARIABLES
-
 let todos = [];
 let currentFilter = "all";
 
 // EVENT LISTENER
-// ADD TODO LIST BUTTON**
-
+// ADD TODO LIST BUTTON **
 addTaskBtn.addEventListener("click", () => {
   addTodo(taskInput.value);
 });
 
 // TASK INPUT
-
 taskInput.addEventListener("keydown", (e) => {
   if (e.key === "Enter") addTodo(taskInput.value);
 });
 
-// CLEAR completed BUTTON
+// CLEAR COMPLETED BUTTON
 clearCompletedBtn.addEventListener("click", clearCompleted);
 
-// ADD TODO**
-
+// ADD TODO **
 function addTodo(text) {
   if (text.trim() === "") return;
 
@@ -49,15 +44,13 @@ function addTodo(text) {
 }
 
 // SAVE TODOS
-
 function saveTodos() {
   localStorage.setItem("todos", JSON.stringify(todos));
   updateItemsCount();
   checkEmptyState();
 }
 
-// UPDATE ITEMS COUNT (UI Change)
-
+// UPDATE ITEMS COUNT **
 function updateItemsCount() {
   const uncompletedTodos = todos.filter((todo) => !todo.completed);
   itemsLeft.textContent = `${uncompletedTodos?.length} item${
@@ -65,12 +58,14 @@ function updateItemsCount() {
   } left`;
 }
 
+// EMPTY STATE
 function checkEmptyState() {
   const filteredTodos = filterTodos(currentFilter);
   if (filteredTodos?.length === 0) emptyState.classList.remove("hidden");
   else emptyState.classList.add("hidden");
 }
 
+// FILTER TODOS
 function filterTodos(filter) {
   switch (filter) {
     case "active":
@@ -82,30 +77,7 @@ function filterTodos(filter) {
   }
 }
 
-function updateItemsCount() {
-  const uncompletedTodos = todos.filter((todo) => !todo.completed);
-  itemsLeft.textContent = `${uncompletedTodos?.length} item${
-    uncompletedTodos?.length !== 1 ? "s" : ""
-  } left`;
-}
-
-function checkEmptyState() {
-  const filteredTodos = filterTodos(currentFilter);
-  if (filteredTodos?.length === 0) emptyState.classList.remove("hidden");
-  else emptyState.classList.add("hidden");
-}
-
-function filterTodos(filter) {
-  switch (filter) {
-    case "active":
-      return todos.filter((todo) => !todo.completed);
-    case "completed":
-      return todos.filter((todo) => todo.completed);
-    default:
-      return todos;
-  }
-}
-
+// RENDER TODOS
 function renderTodos() {
   todosList.innerHTML = "";
 
@@ -148,17 +120,72 @@ function renderTodos() {
   });
 }
 
-function updateItemsCount() {
-  const uncompletedTodos = todos.filter((todo) => !todo.completed);
-  itemsLeft.textContent = `${uncompletedTodos?.length} item${
-    uncompletedTodos?.length !== 1 ? "s" : ""
-  } left`;
-}
-
 // CLEAR COMPLETED
-
 function clearCompleted() {
   todos = todos.filter((todo) => !todo.completed);
   saveTodos();
   renderTodos();
 }
+
+// TOGGLE TODOS
+function toggleTodo(id) {
+  todos = todos.map((todo) => {
+    if (todo.id === id) {
+      return { ...todo, completed: !todo.completed };
+    }
+
+    return todo;
+  });
+  saveTodos();
+  renderTodos();
+}
+
+// DELETE TODOS
+function deleteTodo(id) {
+  todos = todos.filter((todo) => todo.id !== id);
+  saveTodos();
+  renderTodos();
+}
+
+// LOAD TODOS
+function loadTodos() {
+  const storedTodos = localStorage.getItem("todos");
+  if (storedTodos) todos = JSON.parse(storedTodos);
+  renderTodos();
+}
+
+// FILTERS
+filters.forEach((filter) => {
+  filter.addEventListener("click", () => {
+    setActiveFilter(filter.getAttribute("data-filter"));
+  });
+});
+
+// ACTIVE FILTER
+function setActiveFilter(filter) {
+  currentFilter = filter;
+
+  filters.forEach((item) => {
+    if (item.getAttribute("data-filter") === filter) {
+      item.classList.add("active");
+    } else {
+      item.classList.remove("active");
+    }
+  });
+
+  renderTodos();
+}
+
+//
+function setDate() {
+  const options = { weekday: "long", month: "short", day: "numeric" };
+  const today = new Date();
+  dateElement.textContent = today.toLocaleDateString("en-US", options);
+}
+
+// ....
+window.addEventListener("DOMContentLoaded", () => {
+  loadTodos();
+  updateItemsCount();
+  setDate();
+});
