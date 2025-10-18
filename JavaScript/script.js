@@ -118,6 +118,7 @@ function renderTodos() {
 
     todosList.appendChild(todoItem);
   });
+  checkEmptyState();
 }
 
 // CLEAR COMPLETED
@@ -176,16 +177,17 @@ function setActiveFilter(filter) {
   renderTodos();
 }
 
-//
+// SHOW DATE
 function setDate() {
   const options = { weekday: "long", month: "short", day: "numeric" };
   const today = new Date();
   dateElement.textContent = today.toLocaleDateString("en-US", options);
 }
 
-// ....
+//  LOADED WINDOW
 window.addEventListener("DOMContentLoaded", () => {
   loadTodos();
   updateItemsCount();
+  checkEmptyState();
   setDate();
 });
