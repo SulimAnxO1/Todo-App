@@ -5,9 +5,9 @@ It helps users organize daily tasks efficiently with an intuitive interface and 
 
 ---
 
-## 🌐 Live Demo
+## 🚀 Live Demo
 
-### 👉 [Live Demo]()
+### 🌐 [**Live Demo**]()
 
 ---
 
